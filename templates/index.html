@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HireTrack — Job Application Manager</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <div class="brand"><span class="logo">H</span><span>HireTrack</span></div>
+  <div class="nav">
+    <a class="active">⌂ <span>Dashboard</span></a>
+    <a>▣ <span>Applications</span></a>
+    <a>✓ <span>Interviews</span></a>
+    <a>★ <span>Saved opportunities</span></a>
+  </div>
+  <div class="goal">
+    <div class="goal-top"><b>Monthly goal</b><span>{{ stats.total }}/20</span></div>
+    <div class="bar"><i style="width:{{ [stats.total * 5, 100] | min }}%"></i></div>
+    <small>Keep building momentum.</small>
+  </div>
+  <div class="profile"><div class="avatar">TA</div><div><b>Tayyaba Ahmed</b><small>Developer</small></div></div>
+</aside>
+
+<main>
+<header class="topbar">
+  <div><p class="eyebrow">CAREER COMMAND CENTER</p><h1>Good morning, Tayyaba 👋</h1><p class="muted">Track applications, interviews, and offers in one place.</p></div>
+  <button class="primary" onclick="openModal()">+ Add application</button>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="flash-wrap">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>
+{% endif %}{% endwith %}
+
+<section class="stats">
+  <div class="stat"><span>Total applications</span><strong>{{ stats.total }}</strong><small>All tracked roles</small></div>
+  <div class="stat"><span>Interviews</span><strong>{{ stats.interview }}</strong><small>Active opportunities</small></div>
+  <div class="stat"><span>Offers</span><strong>{{ stats.offer }}</strong><small>Successful outcomes</small></div>
+  <div class="stat"><span>Response rate</span><strong>{{ stats.response_rate }}%</strong><small>Applications with a response</small></div>
+</section>
+
+<section class="panel">
+  <div class="panel-head">
+    <div><h2>Applications</h2><p>Search, filter, update, or remove your applications.</p></div>
+    <div class="filters"><input id="search" placeholder="Search company, role, location…" oninput="filterRows()"><select id="statusFilter" onchange="filterRows()"><option>All statuses</option><option>Applied</option><option>Interview</option><option>Offer</option><option>Rejected</option></select></div>
+  </div>
+  <div class="table">
+    <div class="thead"><span>Company & role</span><span>Location</span><span>Status</span><span>Date</span><span>Actions</span></div>
+    {% for a in applications %}
+    <div class="row" data-search="{{ (a.company ~ ' ' ~ a.role ~ ' ' ~ a.location)|lower }}" data-status="{{ a.status }}">
+      <div><b>{{ a.company }}</b><small>{{ a.role }}</small></div>
+      <div class="muted">{{ a.location }}</div>
+      <div><span class="pill {{ a.status|lower }}">{{ a.status }}</span></div>
+      <div class="muted">{{ a.date_applied.strftime('%d %b %Y') }}</div>
+      <div class="actions">
+        <button class="icon-btn" title="Edit" onclick='editApp({{ a.id }}, {{ a.status|tojson }}, {{ a.notes|tojson }})'>✎</button>
+        <form method="post" action="{{ url_for('delete_application', application_id=a.id) }}" onsubmit="return confirm('Delete this application?')"><button class="icon-btn danger" title="Delete">×</button></form>
+      </div>
+    </div>
+    {% else %}
+    <div class="empty">No applications yet. Add your first opportunity.</div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="bottom">
+  <div class="tip"><span>✦</span><div><b>Career tip</b><p>Follow up on applications after 5–7 business days and keep your notes updated.</p></div></div>
+  <a class="api" href="/api/applications" target="_blank">View JSON API →</a>
+</section>
+</main>
+</div>
+
+<div class="modal" id="addModal"><div class="dialog">
+<button class="close" onclick="closeModal()">×</button><p class="eyebrow">NEW OPPORTUNITY</p><h2>Add application</h2><p class="muted">Save the details of a new role.</p>
+<form method="post" action="{{ url_for('create_application') }}">
+<label>Company<input name="company" required placeholder="e.g. Systems Limited"></label>
+<label>Role<input name="role" required placeholder="e.g. Full-Stack Developer"></label>
+<div class="two"><label>Location<input name="location" placeholder="Karachi / Remote"></label><label>Date applied<input name="date_applied" type="date"></label></div>
+<label>Status<select name="status"><option>Applied</option><option>Interview</option><option>Offer</option><option>Rejected</option></select></label>
+<label>Notes<textarea name="notes" rows="3" placeholder="Interview details, recruiter notes, follow-up date…"></textarea></label>
+<button class="primary full">Save application</button>
+</form></div></div>
+
+<div class="modal" id="editModal"><div class="dialog">
+<button class="close" onclick="closeEdit()">×</button><p class="eyebrow">UPDATE APPLICATION</p><h2>Edit status</h2>
+<form id="editForm" method="post">
+<label>Status<select id="editStatus" name="status"><option>Applied</option><option>Interview</option><option>Offer</option><option>Rejected</option></select></label>
+<label>Notes<textarea id="editNotes" name="notes" rows="4"></textarea></label>
+<button class="primary full">Update application</button>
+</form></div></div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
