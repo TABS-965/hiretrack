@@ -1,109 +1,62 @@
-# HireTrack — Job Application Management System
+# 🚀 HireTrack
 
-HireTrack is a responsive full-stack job application tracker built with **Python, Flask, SQLite, SQLAlchemy, HTML, CSS and JavaScript**.
+### Job Application Management System
 
-It is designed as a portfolio project that demonstrates CRUD operations, database persistence, server-side rendering, REST API basics, filtering, responsive UI design and dashboard analytics.
+HireTrack is a full-stack web application for managing and tracking job applications from a single dashboard.
 
-## Features
+It allows users to add applications, update their status, search and filter opportunities, manage notes, and monitor application statistics.
 
-- Professional responsive dashboard
-- Add job applications
-- Edit application status and notes
-- Delete applications
-- Search by company, role or location
-- Filter by application status
-- Automatic application statistics
-- Response-rate calculation
-- SQLite database persistence
-- SQLAlchemy ORM
-- JSON API endpoint
-- Health-check endpoint
-- Demo data automatically seeded on first run
-- Mobile-friendly interface
+## ✨ Features
 
-## Tech Stack
+- 📊 Interactive application dashboard
+- ➕ Add job applications
+- ✏️ Update application status and notes
+- 🗑️ Delete applications
+- 🔎 Search applications
+- 🎯 Filter by application status
+- 📈 Application statistics
+- 📊 Response-rate calculation
+- 💾 SQLite database persistence
+- 🔌 JSON API endpoint
+- ❤️ Health-check endpoint
+- 📱 Responsive design
 
-**Frontend:** HTML5, CSS3, Vanilla JavaScript  
-**Backend:** Python, Flask  
-**Database:** SQLite  
-**ORM:** Flask-SQLAlchemy
+## 🛠️ Tech Stack
 
-## Run locally
+**Frontend**
+- HTML5
+- CSS3
+- JavaScript
 
-### 1. Create a virtual environment
+**Backend**
+- Python
+- Flask
 
-Windows:
+**Database**
+- SQLite
+- SQLAlchemy
 
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
+## 📸 Screenshots
 
-macOS/Linux:
+### Dashboard
 
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
+_Add screenshot of the HireTrack dashboard here._
 
-### 2. Install dependencies
+### Add Application
 
-```bash
-pip install -r requirements.txt
-```
+_Add screenshot of the application form here._
 
-### 3. Start the application
-
-```bash
-python app.py
-```
-
-Open:
-
-```text
-http://127.0.0.1:5000
-```
-
-The SQLite database is created automatically.
-
-## API
-
-Open:
-
-```text
-GET /api/applications
-```
-
-Health check:
-
-```text
-GET /health
-```
-
-## Project structure
+## 📁 Project Structure
 
 ```text
 HireTrack/
 ├── app.py
 ├── requirements.txt
 ├── README.md
+├── .env.example
+├── .gitignore
 ├── templates/
 │   └── index.html
 └── static/
     ├── style.css
     └── app.js
-```
-
-## Portfolio upgrades
-
-For a production version, add:
-
-- User authentication
-- PostgreSQL
-- Interview calendar
-- Email reminders
-- Resume version tracking
-- Job board API integrations
-- Docker deployment
-- Automated tests
-- CI/CD
